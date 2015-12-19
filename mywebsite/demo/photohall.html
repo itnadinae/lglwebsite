@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<meta name="description" content="智能社是一家专注于web前端开发技术的公司，目前主要提供JavaScript培训和HTML5培训两项服务，同时还推出了大量javascript基础知识教程，智能课堂为你带来全新的学习方法和快乐的学习体验。" />
+<title>智能社— http://www.zhinengshe.com</title>
+<style>
+*{margin:0; padding:0; list-style:none;}
+body{background:#000;}
+ul{ width:480px; height:260px; margin:100px auto; position:relative;}
+ul li{width:480px;height:260px;-webkit-transform:perspective(800px) translateX(0px) rotate(0deg); opacity:0; position:absolute; top:0; left:0; -webkit-transition:1s all ease;}
+ul li.l2{-webkit-transform:perspective(800px) translateX(-300px) rotateY(40deg); opacity:0; z-index:1;}
+ul li.l1{-webkit-transform:perspective(800px) translateX(-250px) rotateY(40deg); opacity:1; z-index:2;}
+ul li.cur{-webkit-transform:perspective(800px) translateX(0px) rotateY(0deg); opacity:1; z-index:3;}
+ul li.r1{-webkit-transform:perspective(800px) translateX(250px) rotateY(-40deg); opacity:1; z-index:2;}
+ul li.r2{-webkit-transform:perspective(800px) translateX(300px) rotateY(-40deg); opacity:0; z-index:1;}
+</style>
+<script>
+window.onload=function(){
+	var oBtn = document.getElementsByTagName('input')[0];
+	var oUl = document.getElementsByTagName('ul')[0];
+	var aLi = oUl.children;
+	var iNow = 2;
+	oBtn.onclick=function(){
+		iNow++;
+		for(var i=0;i<aLi.length;i++){
+			aLi[i].className='';
+		}
+		aLi[(iNow-2)%aLi.length].className='l2';
+		aLi[(iNow-1)%aLi.length].className='l1';
+		aLi[iNow%aLi.length].className='cur';
+		aLi[(iNow+1)%aLi.length].className='r1';
+		aLi[(iNow+2)%aLi.length].className='r2';
+	};
+};
+</script>
+</head>
+
+<body>
+<input type="button" value="下一个" />
+<ul>
+	<li class="l2"><img src="img/13.jpg" /></li>
+	<li class="l1"><img src="img/19.jpg" /></li>
+	<li class="cur"><img src="img/20.jpg" /></li>
+	<li class="r1"><img src="img/14.jpg" /></li>
+	<li class="r2"><img src="img/15.jpg" /></li>
+	<li><img src="img/16.jpg" /></li>
+	<li><img src="img/17.jpg" /></li>
+	<li><img src="img/18.jpg" /></li>
+	<li><img src="img/9.jpg" /></li>
+	<li><img src="img/10.jpg" /></li>
+	<li><img src="img/11.jpg" /></li>
+	<li><img src="img/12.jpg" /></li>
+</ul>
+</body>
+</html>

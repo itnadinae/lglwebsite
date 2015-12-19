@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+*{margin:0; padding:0;}
+body{overflow:hidden;}
+#c1{background:#000;}
+</style>
+<script>
+function rnd(n,m){
+	return parseInt(Math.random()*(m-n)+n);
+}
+window.onload=function(){
+	var oC = document.getElementById('c1');
+	var gc = oC.getContext('2d');
+	var winW = document.documentElement.clientWidth;
+	var winH = document.documentElement.clientHeight;
+	oC.width=winW;
+	oC.height=winH;
+	var N = 5;
+	var aPoint = [];
+	for(var i=0;i<N;i++){
+		aPoint[i] = {
+			x:rnd(0,winW),
+			y:rnd(0,winH),
+			speedX:rnd(-10,10),
+			speedY:rnd(-10,10)
+		};
+	}
+	
+	//画点
+	for(var i=0;i<N;i++){
+		drawPoint(aPoint[i]);
+	}
+	
+	var len = 10;
+	var oldPos = [];
+	
+	//运动
+	setInterval(function(){
+		gc.clearRect(0,0,winW,winH);
+		for(var i=0;i<N;i++){
+			aPoint[i].x+=aPoint[i].speedX;
+			aPoint[i].y+=aPoint[i].speedY;
+			if(aPoint[i].x<0){
+				aPoint[i].x=0;
+				aPoint[i].speedX*=-1;
+			}
+			if(aPoint[i].x>=winW){
+				aPoint[i].x=winW;
+				aPoint[i].speedX*=-1;
+			}
+			if(aPoint[i].y<0){
+				aPoint[i].y=0;
+				aPoint[i].speedY*=-1;
+			}
+			if(aPoint[i].y>=winH){
+				aPoint[i].y=winH;
+				aPoint[i].speedY*=-1;
+			}
+			
+			
+			gc.fillRect(aPoint[i].x,aPoint[i].y,1,1);
+		}
+		
+		gc.beginPath();
+		gc.strokeStyle='#fff';
+		gc.moveTo(aPoint[0].x,aPoint[0].y);
+		for(var i=1;i<aPoint.length;i++){
+			gc.lineTo(aPoint[i].x,aPoint[i].y);
+		}
+		gc.closePath();
+		gc.stroke();
+		
+		//保存老的位置
+		var arr = [];
+		for(var i=0;i<aPoint.length;i++){
+			arr.push({
+				x:aPoint[i].x,
+				y:aPoint[i].y
+			});
+		}
+		
+		oldPos.push(arr);
+		
+		while(oldPos.length>len){
+			oldPos.shift();
+		}
+		
+		//画老的线
+		for(var i =0;i<oldPos.length;i++){
+			gc.beginPath();
+			var opacity = 1-i/oldPos.length;
+			gc.strokeStyle='rgba(255,255,255,'+opacity+')';
+			gc.moveTo(oldPos[i][0].x,oldPos[i][0].y);
+			for(var j=0;j<oldPos[i].length;j++){
+				gc.lineTo(oldPos[i][j].x,oldPos[i][j].y);
+			}
+			gc.closePath();
+			gc.stroke();
+		}
+		
+		
+	},16);
+	
+	
+	
+	function drawPoint(point){
+		gc.fillStyle='#fff';
+		gc.fillRect(point.x,point.y,1,1);
+	}
+};
+</script>
+</head>
+
+<body>
+<canvas id="c1"></canvas>
+</body>
+</html>

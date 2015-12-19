@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>分页</title>
+<style>
+*{margin:0; padding:0; list-style:none;}
+body{ background:url(../img/sky.jpg)}
+ul{width:510px; margin:20px auto;}
+li{float:left; width:150px; height:150px; background:#ccc; margin:10px; text-align:center; line-height:150px; font-size:50px; font-weight:bold;}
+</style>
+<script src="../js/common.js" ></script>
+<script>
+function rnd(n,m){
+	return parseInt(n+Math.random()*(m-n));
+}
+window.onload=function(){
+	var oBtn = document.getElementsByTagName('input')[0];
+	var aLi = document.getElementsByTagName('li');
+	
+	//布局转换
+	var aPos = [];
+	for(var i=0;i<aLi.length;i++){
+		aPos.push({t:aLi[i].offsetTop,l:aLi[i].offsetLeft});
+	}
+	for(var i=0;i<aLi.length;i++){
+		aLi[i].style.left = aPos[i].l+'px';
+		aLi[i].style.top = aPos[i].t+'px';
+		aLi[i].style.position='absolute';
+		aLi[i].style.margin=0;
+	}
+	
+	var timer = null;
+	var bOk = false;
+	oBtn.onclick=function(){
+		if(bOk)return ;
+		bOk=true;
+		var i = 0;
+		timer = setInterval(function(){
+			(function(index){
+				startMove(aLi[i],{left:0,top:0,width:0,height:0,opacity:0},{end:function(){
+					if(index==aLi.length-1){
+						console.log(index)
+						i = aLi.length-1;
+						timer = setInterval(function(){
+							(function(index){
+								aLi[index].style.background='rgb('+rnd(0,256)+','+rnd(0,256)+','+rnd(0,256)+')';
+								startMove(aLi[index],{left:aPos[index].l,top:aPos[index].t,width:150,height:150,opacity:1},{end:function(){
+									if(index==0){
+										bOk=false;
+									}
+								}});
+							})(i);
+							i--;
+							if(i==-1){
+								clearInterval(timer);
+							}
+						},100);
+					}
+				}});
+			})(i);
+			i++;
+			if(i==aLi.length){
+				clearInterval(timer);
+			}
+		},100);
+	};
+};
+</script>
+</head>
+
+<body>
+<input type="button" value="收起" />
+<ul>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
